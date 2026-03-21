@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chakra AI Safety Platform — Red Team Simulator, Trustworthiness Scorecard, Ethics Layer, and LLM Audit API.">
+    <title>Chakra — AI Safety & Alignment Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="topbar">
+        <div class="topbar-brand">
+            <div class="logo-icon">🛡️</div>
+            <h1>Chakra <span class="accent">AI Safety Platform</span></h1>
+        </div>
+        <div class="topbar-meta">
+            <span class="badge badge-live">LIVE</span>
+            <span id="clock" class="clock">--:--:--</span>
+        </div>
+    </header>
+
+    <!-- Pillar Navigation -->
+    <nav class="pillar-nav">
+        <button class="pillar-tab active" data-pillar="redteam">🔴 Red Team Simulator</button>
+        <button class="pillar-tab" data-pillar="scorecard">📊 Trustworthiness Scorecard</button>
+        <button class="pillar-tab" data-pillar="ethics">⚙️ Ethics Layer Plugin</button>
+        <button class="pillar-tab" data-pillar="audit">📋 LLM Audit API</button>
+    </nav>
+
+    <main class="dashboard">
+
+        <!-- ============ PILLAR 1: Red Team Simulator ============ -->
+        <section id="pillar-redteam" class="pillar-section active">
+            <div class="pillar-header">
+                <h2>🔴 AI Red Team Simulator</h2>
+                <p class="subtext">A sandbox where developers can test LLMs against prompt injection, jailbreaks, or harmful content scenarios.</p>
+            </div>
+
+            <div class="grid-2col">
+                <div class="card">
+                    <h3>Attack Categories</h3>
+                    <p class="subtext">Select categories to include in the red-team run.</p>
+                    <div class="category-checkboxes" id="rt-categories">
+                        <label><input type="checkbox" value="injection" checked> Prompt Injection</label>
+                        <label><input type="checkbox" value="jailbreak" checked> Jailbreak</label>
+                        <label><input type="checkbox" value="pii" checked> PII Leak</label>
+                        <label><input type="checkbox" value="social_engineering" checked> Social Engineering</label>
+                        <label><input type="checkbox" value="benign" checked> Benign (Control)</label>
+                    </div>
+                    <select id="rt-tenant" class="select-full">
+                        <option value="default">Tenant: default</option>
+                        <option value="bank_xyz">Tenant: bank_xyz</option>
+                    </select>
+                    <button id="btn-redteam" class="btn btn-danger btn-full">🚀 Launch Red Team Suite</button>
+                </div>
+
+                <div class="card" id="rt-results-card">
+                    <h3>Results</h3>
+                    <div id="rt-results-empty" class="empty-state">Run a suite to see results here.</div>
+                    <div id="rt-results" class="hidden">
+                        <div class="rt-kpi-row" id="rt-kpi-row"></div>
+                        <div class="rt-detection" id="rt-detection"></div>
+                        <h4 style="margin-top:1rem;">Category Breakdown</h4>
+                        <div id="rt-category-breakdown"></div>
+                        <h4 style="margin-top:1rem;">Per-Prompt Results</h4>
+                        <div class="rt-prompt-list" id="rt-prompt-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PILLAR 2: Trustworthiness Scorecard ============ -->
+        <section id="pillar-scorecard" class="pillar-section hidden">
+            <div class="pillar-header">
+                <h2>📊 Trustworthiness Scorecard</h2>
+                <p class="subtext">Measures model safety, bias, and compliance based on inputs and outputs.</p>
+            </div>
+
+            <div class="kpi-strip" id="kpi-strip">
+                <div class="kpi-card"><span class="kpi-label">Total Scanned</span><span class="kpi-value" id="kpi-total">0</span></div>
+                <div class="kpi-card kpi-block"><span class="kpi-label">Blocked</span><span class="kpi-value" id="kpi-blocked">0</span></div>
+                <div class="kpi-card kpi-warn"><span class="kpi-label">Warned</span><span class="kpi-value" id="kpi-warned">0</span></div>
+                <div class="kpi-card kpi-allow"><span class="kpi-label">Allowed</span><span class="kpi-value" id="kpi-allowed">0</span></div>
+                <div class="kpi-card kpi-trust"><span class="kpi-label">Trust Score</span><span class="kpi-value" id="kpi-trust">10.0</span></div>
+            </div>
+
+            <div class="card">
+                <h3>Dimensional Breakdown</h3>
+                <div id="dimensions-grid" class="dimensions-grid">
+                    <p class="empty-state">Run some evaluations first to see dimensional scores.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Baseline vs. Chakra-Protected</h3>
+                <div class="eval-grid">
+                    <div class="eval-metric"><span class="eval-label">Baseline Pass-Through Rate</span><div class="eval-bar"><div class="eval-fill eval-fill-bad" style="width:100%">100%</div></div></div>
+                    <div class="eval-metric"><span class="eval-label">Chakra Injection Block Rate</span><div class="eval-bar"><div class="eval-fill eval-fill-good" style="width:94%">94%</div></div></div>
+                    <div class="eval-metric"><span class="eval-label">Chakra PII Redaction Rate</span><div class="eval-bar"><div class="eval-fill eval-fill-good" style="width:100%">100%</div></div></div>
+                    <div class="eval-metric"><span class="eval-label">False Positive Rate</span><div class="eval-bar"><div class="eval-fill eval-fill-neutral" style="width:3%">3%</div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PILLAR 3: Ethics Layer Plugin ============ -->
+        <section id="pillar-ethics" class="pillar-section hidden">
+            <div class="pillar-header">
+                <h2>⚙️ Ethics Layer Plugin</h2>
+                <p class="subtext">Middleware tool that sits between user prompts and model responses, filtering unsafe or misleading outputs.</p>
+            </div>
+
+            <div class="grid-2col">
+                <div class="card">
+                    <h3>Prompt Evaluator</h3>
+                    <p class="subtext">Submit a prompt to pass through the ethics layer pipeline.</p>
+                    <textarea id="prompt-input" rows="4" placeholder="Type or paste an AI prompt to evaluate..."></textarea>
+                    <div class="tester-actions">
+                        <select id="tenant-select">
+                            <option value="default">Tenant: default</option>
+                            <option value="bank_xyz">Tenant: bank_xyz</option>
+                        </select>
+                        <button id="btn-test" class="btn btn-primary">⚡ Evaluate</button>
+                    </div>
+                    <div id="result-panel" class="result-panel hidden">
+                        <div class="result-header">
+                            <span id="result-action" class="badge">—</span>
+                            <span id="result-score" class="result-score">0.00</span>
+                        </div>
+                        <p id="result-explanation" class="result-explanation"></p>
+                        <div id="result-labels" class="result-labels"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Pipeline Trace</h3>
+                    <p class="subtext">Step-by-step breakdown of how the ethics layer processed this prompt.</p>
+                    <div id="pipeline-trace" class="pipeline-trace">
+                        <p class="empty-state">Evaluate a prompt to see the pipeline trace.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PILLAR 4: LLM Audit API ============ -->
+        <section id="pillar-audit" class="pillar-section hidden">
+            <div class="pillar-header">
+                <h2>📋 LLM Audit API</h2>
+                <p class="subtext">Logs and explains decisions made by the model to support transparency and regulatory auditing.</p>
+            </div>
+
+            <div class="card">
+                <h3>Decision Audit Log</h3>
+                <p class="subtext">Full history with explainable decision traces for every evaluated prompt.</p>
+                <div class="table-wrapper">
+                    <table id="audit-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Tenant</th>
+                                <th>Prompt</th>
+                                <th>Action</th>
+                                <th>Risk</th>
+                                <th>Labels</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-body">
+                            <tr><td colspan="7" class="empty-state">No audit entries yet. Use the Ethics Layer or Red Team Simulator first.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Chakra AI Safety Platform v2.0 &mdash; Red Team Simulator · Trustworthiness Scorecard · Ethics Layer Plugin · LLM Audit API</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

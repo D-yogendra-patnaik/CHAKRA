@@ -1,0 +1,39 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.1, pytest-9.0.2, pluggy-1.6.0 -- D:\Python\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\yogen\.gemini\antigravity\scratch\chakra
+plugins: anyio-3.7.1, asyncio-1.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 7 items
+
+tests/test_api.py::test_health_check PASSED                              [ 14%]
+tests/test_api.py::test_filter_prompt_unauthorized FAILED                [ 28%]
+tests/test_api.py::test_filter_prompt_authorized_safe PASSED             [ 42%]
+tests/test_api.py::test_filter_prompt_authorized_attack PASSED           [ 57%]
+tests/test_engine.py::test_heuristics_safe PASSED                        [ 71%]
+tests/test_engine.py::test_heuristics_pii PASSED                         [ 85%]
+tests/test_engine.py::test_heuristics_instruction_override PASSED        [100%]
+
+================================== FAILURES ===================================
+_______________________ test_filter_prompt_unauthorized _______________________
+
+    def test_filter_prompt_unauthorized():
+        response = client.post(
+            "/v1/filter",
+            json={"tenant_id": "test", "session_id": "s1", "prompt": "hi"}
+        )
+        # Missing API Key
+>       assert response.status_code == 401
+E       assert 200 == 401
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\test_api.py:18: AssertionError
+============================== warnings summary ===============================
+src\core\config.py:3
+  C:\Users\yogen\.gemini\antigravity\scratch\chakra\src\core\config.py:3: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class Settings(BaseSettings):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_api.py::test_filter_prompt_unauthorized - assert 200 == 401
+=================== 1 failed, 6 passed, 1 warning in 1.37s ====================
