@@ -38,8 +38,12 @@ INJECTION_PATTERNS = [
     r"how\s+would\s+you\s+respond\s+differently",
     # "Follow those/the/these decoded/translated instructions"
     r"(?:follow|execute|obey|apply)\s+(?:those|the|these)\s+(?:decoded|translated|converted)\s+instructions",
-    # Base64 instruction injection
+    # Base64 instruction injection (when accompanied by decode keywords)
     r"(?:decode|base64).*(?:follow|execute|obey|apply)\s+(?:those|the|these|it)",
+    # Raw Base64 string detection (catches obfuscated payloads without keywords)
+    r"(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?",
+    # Payload Splitting (Variable smuggling & concatenation)
+    r"(?:let|set|var|const|def)\s+[a-z_]+\s*=\s*[\"'][^\"']+[\"'](?:.|\n)+(?:concatenate|combine|join|append|assemble)",
     # Translation-based smuggling: asking to translate then follow
     r"translate.*(?:follow|execute|obey|do\s+what\s+it\s+says)",
     # Gradual escalation: "you're helpful right? now..."
