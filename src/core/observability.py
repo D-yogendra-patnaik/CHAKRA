@@ -1,6 +1,6 @@
 import logging
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 logger = logging.getLogger("chakra_audit")
 logger.setLevel(logging.INFO)
@@ -12,7 +12,7 @@ logger.addHandler(handler)
 
 def log_audit_action(tenant_id: str, session_id: str, action: str, risk_score: float, labels: list, latency_ms: float):
     log_entry = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "tenant_id": tenant_id,
         "session_id": session_id,
         "action": action,
