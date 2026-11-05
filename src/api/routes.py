@@ -2,7 +2,7 @@ from fastapi import APIRouter, Query
 from typing import Optional, List
 import uuid
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 from .models import (
     FilterRequest, FilterResponse,
@@ -42,7 +42,7 @@ async def filter_prompt(request: FilterRequest):
         "id": str(uuid.uuid4()),
         "tenant_id": request.tenant_id,
         "session_id": request.session_id,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "action": action,
         "risk_score": result.risk_score,
         "labels": result.labels,

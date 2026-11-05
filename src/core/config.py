@@ -1,11 +1,11 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     APP_NAME: str = "Chakra AI Guardrail"
     DEBUG: bool = False
     
     # DB
-    DATABASE_URL: str = "postgresql://chakra:password@localhost:5432/chakra"
+    DATABASE_URL: str = "postgresql+psycopg2://chakra:password@localhost:5432/chakra"
     
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -17,7 +17,6 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 8000
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 settings = Settings()
