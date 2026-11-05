@@ -48,5 +48,5 @@ def store_session_context(session_id: str, context: dict):
     try:
         client.hset(f"session:{session_id}", mapping=context)
         client.expire(f"session:{session_id}", 3600)
-    except Exception:
-        pass
+    except Exception as e:
+        logger.warning(f"Failed to store session context for {session_id}: {e}")
